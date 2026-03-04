@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - pip install -r requirements.txt
+      - pip install gunicorn
+      - pip install pytest
+      - npm install -g artillery
+  pre_build:
+    commands:
+      - echo "Starting Flask app for testing..."
+      - nohup gunicorn app:app --bind 0.0.0.0:5000 & # Background process to run the app
+      - sleep 5 # Give the app time to start
+  build:
+    commands:
+      - echo "Running integration tests..."
+      - pytest tests/integration/
+      - echo "Running load tests..."
+      - artillery run load/load_test.yml
+  post_build:
+    commands:
+      - echo "Tests completed."
+
+artifacts:
+  files:
+    - '**/*' # Include all files
+  discard-paths: yes

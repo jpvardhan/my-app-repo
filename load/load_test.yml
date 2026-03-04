@@ -1,0 +1,14 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 30
+      arrivalRate: 5
+
+scenarios:
+  - flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/health"
+      - get:
+          url: "/echo/loadtest"
