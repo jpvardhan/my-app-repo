@@ -13,7 +13,7 @@ phases:
     commands:
       - echo "Starting Flask app for testing..."
       - nohup gunicorn app:app --bind 0.0.0.0:5000 & # Background process to run the app
-      - sleep 5 # Give the app time to start
+      - sleep 15 # Give the app time to start
   build:
     commands:
       - echo "Running integration tests..."
